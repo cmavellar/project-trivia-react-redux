@@ -16,12 +16,17 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleClick = async () => {
+  routeGame = async () => {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
     localStorage.setItem('token', json.token);
     const { history } = this.props;
     history.push('/game');
+  }
+
+  routeSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
   }
 
   render() {
@@ -47,10 +52,17 @@ class Login extends React.Component {
         <button
           type="button"
           data-testid="btn-play"
-          onClick={ this.handleClick }
+          onClick={ this.routeGame }
           disabled={ !(player && email) }
         >
           Play
+        </button>
+        <button
+          data-testid="btn-settings"
+          type="button"
+          onClick={ this.routeSettings }
+        >
+          Settings
         </button>
       </form>
     );
