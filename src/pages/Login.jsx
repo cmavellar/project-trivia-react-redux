@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+// import md5 from 'crypto-js/md5';
 
 class Login extends React.Component {
   constructor() {
@@ -17,9 +18,17 @@ class Login extends React.Component {
   }
 
   routeGame = async () => {
+    // const { player, email } = this.state;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
+    console.log('teste');
+    // const rankingObj = [{
+    //   name: player,
+    //   score: 0,
+    //   picture: md5(email).toString(),
+    // }];
     localStorage.setItem('token', json.token);
+    // localStorage.setItem('ranking', JSON.stringify(rankingObj));
     const { history } = this.props;
     history.push('/game');
   }
