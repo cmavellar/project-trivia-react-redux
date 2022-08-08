@@ -42,5 +42,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Header);
-
-// currencies: store.wallet.currencies
