@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { getInfoPlayer, getPicture } from '../redux/actions';
 // import md5 from 'crypto-js/md5';
 
 class Login extends React.Component {
@@ -18,7 +20,8 @@ class Login extends React.Component {
   }
 
   routeGame = async () => {
-    // const { player, email } = this.state;
+    const { player, email } = this.state;
+    const { dispatchGetInfoPlayer, dispatchGetPicture } = this.props;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
     console.log('teste');
@@ -31,6 +34,8 @@ class Login extends React.Component {
     // localStorage.setItem('ranking', JSON.stringify(rankingObj));
     const { history } = this.props;
     history.push('/game');
+    dispatchGetInfoPlayer(player);
+    dispatchGetPicture(email);
   }
 
   routeSettings = () => {
@@ -79,9 +84,16 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  dispatchGetInfoPlayer: PropTypes.func.isRequired,
+  dispatchGetPicture: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  dispatchGetInfoPlayer: (name) => dispatch(getInfoPlayer(name)),
+  dispatchGetPicture: (email) => dispatch(getPicture(email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
