@@ -1,15 +1,44 @@
-import React from 'react';
-import logo from '../trivia.png';
-import '../App.css';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 
-class Header extends React.Component {
+class Header extends Component {
   render() {
+    const { name, score, gravatarEmail } = this.props;
+    const picturePlayer = md5(gravatarEmail).toString();
     return (
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
+      <header>
+        <img
+          data-testid="header-profile-picture"
+          src={ `https://www.gravatar.com/avatar/${picturePlayer}` }
+          alt={ name }
+        />
+        <span data-testid="header-player-name">
+          Nome:
+          { name }
+        </span>
+        <br />
+        <span data-testid="header-score">
+          Pontuação:
+          { score }
+        </span>
       </header>
+
     );
   }
 }
 
-export default Header;
+Header.propTypes = {
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  name: state.player.name,
+  score: state.player.score,
+  gravatarEmail: state.player.gravatarEmail,
+});
+
+export default connect(mapStateToProps)(Header);
