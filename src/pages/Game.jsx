@@ -12,7 +12,7 @@ class Game extends Component {
       correct: 'correct',
       incorrect: 'wrong',
       timer: 30,
-      disableBtn: false,
+      // disableBtn: false,
     };
   }
 
@@ -20,26 +20,38 @@ class Game extends Component {
     this.fetchTriviaAPI();
   }
 
+  componentDidUpdate() {
+    this.handleTime();
+  }
+
+  handleTime = () => {
+    const { timer } = this.state;
+    const mil = 1000;
+    if (timer > 0) {
+      setTimeout(() => this.setState({ timer: timer - 1 }), mil);
+    }
+  }
+
   // componentDidUpdate(_prevProps, prevState) {
   //   this.clearTimer(prevState);
   // }
 
-  clearTimer = (prevState) => {
-    if (prevState.timer === 0) {
-      clearInterval(this.timeInterval);
-      this.setState({
-        disableBtn: true,
-        timer: 0,
-      });
-    }
-  }
+  // clearTimer = (prevState) => {
+  //   if (prevState.timer === 0) {
+  //     clearInterval(this.timeInterval);
+  //     this.setState({
+  //       disableBtn: true,
+  //       timer: 0,
+  //     });
+  //   }
+  // }
 
-  runQuestionTimer = () => {
-    const oneSecond = 1000;
-    this.timeInterval = setInterval(() => this.setState((prevState) => ({
-      timer: prevState.timer - 1,
-    })), oneSecond);
-  }
+  // runQuestionTimer = () => {
+  //   const oneSecond = 1000;
+  //   this.timeInterval = setInterval(() => this.setState((prevState) => ({
+  //     timer: prevState.timer - 1,
+  //   })), oneSecond);
+  // }
 
   fetchTriviaAPI = async () => {
     const { history } = this.props;
@@ -72,7 +84,7 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, allAnswers, correct, incorrect, timer, disableBtn } = this.state;
+    const { questions, allAnswers, correct, incorrect, timer } = this.state;
     console.log(questions);
     return (
       <>
@@ -92,7 +104,8 @@ class Game extends Component {
               className={ answer === questions[0].correct_answer ? correct : incorrect }
               key={ index }
               onClick={ this.answerBtnClick }
-              disable={ disableBtn }
+              // disable={ disableBtn }
+              disabled={ timer < 1 }
             >
               { answer }
             </button>
