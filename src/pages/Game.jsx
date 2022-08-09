@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import '../styles/Game.css';
 
 class Game extends Component {
   constructor() {
@@ -8,6 +9,8 @@ class Game extends Component {
     this.state = {
       questions: [],
       allAnswers: [],
+      correct: 'correct',
+      incorrect: 'wrong',
     };
   }
 
@@ -41,8 +44,12 @@ class Game extends Component {
     });
   }
 
+  answerBtnClick = () => {
+    this.setState({ correct: 'correct-answer', incorrect: 'wrong-answer' });
+  }
+
   render() {
-    const { questions, allAnswers } = this.state;
+    const { questions, allAnswers, correct, incorrect } = this.state;
     console.log(questions);
     return (
       <>
@@ -58,7 +65,9 @@ class Game extends Component {
               type="button"
               data-testid={ answer === questions[0].correct_answer
                 ? 'correct-answer' : `wrong-answer-${index}` }
+              className={ answer === questions[0].correct_answer ? correct : incorrect }
               key={ index }
+              onClick={ this.answerBtnClick }
             >
               { answer }
             </button>
