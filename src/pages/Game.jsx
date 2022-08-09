@@ -17,7 +17,6 @@ class Game extends Component {
 
   fetchTriviaAPI = async () => {
     const { history } = this.props;
-    const { allAnswers } = this.state;
 
     const token = localStorage.getItem('token');
     const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
@@ -37,8 +36,8 @@ class Game extends Component {
       questions: data.results,
       allAnswers: data.results[0].type === 'multiple'
         ? [correct, ...incorrect]
-          .sort(() => Math.random() - meio)
-        : [correct, incorrect].sort(() => Math.random() - meio),
+          .sort(() => Math.random() - half)
+        : [correct, incorrect].sort(() => Math.random() - half),
     });
   }
 
