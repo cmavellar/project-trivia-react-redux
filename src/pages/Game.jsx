@@ -20,16 +20,17 @@ class Game extends Component {
       runTimer: true,
     };
   }
-
   componentDidMount() {
     this.fetchTriviaAPI();
   }
 
   componentDidUpdate() {
+
     const { runTimer } = this.state;
     if (runTimer) {
       this.handleTime();
     }
+    this.handleTime();
   }
 
   handleTime = () => {
@@ -39,21 +40,7 @@ class Game extends Component {
       setTimeout(() => this.setState({ timer: timer - 1 }), mil);
     }
   }
-
-  // clearTimer = () => {
-  //   clearInterval(this.timeInterval);
-  //   this.setState({
-  //     timer: 30,
-  //   });
-  // }
-
-  // runQuestionTimer = () => {
-  //   const oneSecond = 1000;
-  //   this.timeInterval = setInterval(() => this.setState((prevState) => ({
-  //     timer: prevState.timer - 1,
-  //   })), oneSecond);
-  // }
-
+  
   updateAnswers = () => {
     const { questions, indexQuestion } = this.state;
 
@@ -81,7 +68,6 @@ class Game extends Component {
       difficulty: points,
     });
   }
-
   fetchTriviaAPI = async () => {
     const { history } = this.props;
 
@@ -134,7 +120,6 @@ class Game extends Component {
       const { history } = this.props;
       history.push('/feedback');
     }
-    // clearTimer();
   }
 
   render() {
@@ -147,7 +132,6 @@ class Game extends Component {
       btnNext,
       indexQuestion,
     } = this.state;
-    console.log(questions);
     return (
       <>
         <Header />
