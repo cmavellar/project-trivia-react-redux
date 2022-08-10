@@ -20,12 +20,12 @@ class Game extends Component {
       runTimer: true,
     };
   }
+
   componentDidMount() {
     this.fetchTriviaAPI();
   }
 
   componentDidUpdate() {
-
     const { runTimer } = this.state;
     if (runTimer) {
       this.handleTime();
@@ -40,7 +40,7 @@ class Game extends Component {
       setTimeout(() => this.setState({ timer: timer - 1 }), mil);
     }
   }
-  
+
   updateAnswers = () => {
     const { questions, indexQuestion } = this.state;
 
@@ -68,6 +68,7 @@ class Game extends Component {
       difficulty: points,
     });
   }
+
   fetchTriviaAPI = async () => {
     const { history } = this.props;
 
