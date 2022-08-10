@@ -11,12 +11,48 @@ class Game extends Component {
       allAnswers: [],
       correct: 'correct',
       incorrect: 'wrong',
+      timer: 30,
+      btnNext: false,
+      // disableBtn: false,
     };
   }
 
   componentDidMount() {
     this.fetchTriviaAPI();
   }
+
+  componentDidUpdate() {
+    this.handleTime();
+  }
+
+  handleTime = () => {
+    const { timer } = this.state;
+    const mil = 1000;
+    if (timer > 0) {
+      setTimeout(() => this.setState({ timer: timer - 1 }), mil);
+    }
+  }
+
+  // componentDidUpdate(_prevProps, prevState) {
+  //   this.clearTimer(prevState);
+  // }
+
+  // clearTimer = (prevState) => {
+  //   if (prevState.timer === 0) {
+  //     clearInterval(this.timeInterval);
+  //     this.setState({
+  //       disableBtn: true,
+  //       timer: 0,
+  //     });
+  //   }
+  // }
+
+  // runQuestionTimer = () => {
+  //   const oneSecond = 1000;
+  //   this.timeInterval = setInterval(() => this.setState((prevState) => ({
+  //     timer: prevState.timer - 1,
+  //   })), oneSecond);
+  // }
 
   fetchTriviaAPI = async () => {
     const { history } = this.props;
@@ -45,15 +81,20 @@ class Game extends Component {
   }
 
   answerBtnClick = () => {
-    this.setState({ correct: 'correct-answer', incorrect: 'wrong-answer' });
+    this.setState({
+      correct: 'correct-answer',
+      incorrect: 'wrong-answer',
+      btnNext: true,
+    });
   }
 
   render() {
-    const { questions, allAnswers, correct, incorrect } = this.state;
+    const { questions, allAnswers, correct, incorrect, timer, btnNext } = this.state;
     console.log(questions);
     return (
       <>
         <Header />
+        <p>{ timer }</p>
         { questions.length > 0 && (
           <div>
             <p data-testid="question-category">{ questions[0].category }</p>
@@ -68,10 +109,23 @@ class Game extends Component {
               className={ answer === questions[0].correct_answer ? correct : incorrect }
               key={ index }
               onClick={ this.answerBtnClick }
+              // disable={ disableBtn }
+              disabled={ timer < 1 }
             >
               { answer }
             </button>
           )) }
+          <div>
+            { btnNext && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                // onClick={}
+              >
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </>
 
