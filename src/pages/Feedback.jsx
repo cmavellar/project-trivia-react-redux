@@ -21,6 +21,7 @@ render() {
   return (
     <>
       <Header />
+      <p data-testid="feedback-text">Feedback</p>
       <button
         data-testid="btn-play-again"
         type="button"

@@ -14,6 +14,7 @@ class Game extends Component {
       timer: 30,
       btnNext: false,
       indexQuestion: 0,
+      runTimer: true,
     };
   }
 
@@ -22,7 +23,10 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    this.handleTime();
+    const { runTimer } = this.state;
+    if (runTimer) {
+      this.handleTime();
+    }
   }
 
   handleTime = () => {
@@ -47,9 +51,22 @@ class Game extends Component {
   //   })), oneSecond);
   // }
 
+  updateAnswers = () => {
+    const { questions, indexQuestion } = this.state;
+    const half = 0.5;
+    const correct = questions[indexQuestion].correct_answer;
+    const incorrect = questions[indexQuestion].incorrect_answers;
+
+    this.setState({
+      allAnswers: questions[indexQuestion].type === 'multiple'
+        ? [correct, ...incorrect]
+          .sort(() => Math.random() - half)
+        : [correct, incorrect].sort(() => Math.random() - half),
+    });
+  }
+
   fetchTriviaAPI = async () => {
     const { history } = this.props;
-    const { indexQuestion } = this.state;
 
     const token = localStorage.getItem('token');
     const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
@@ -61,17 +78,9 @@ class Game extends Component {
       history.push('/');
     }
 
-    const half = 0.5;
-    const correct = data.results[indexQuestion].correct_answer;
-    const incorrect = data.results[indexQuestion].incorrect_answers;
-
     this.setState({
       questions: data.results,
-      allAnswers: data.results[indexQuestion].type === 'multiple'
-        ? [correct, ...incorrect]
-          .sort(() => Math.random() - half)
-        : [correct, incorrect].sort(() => Math.random() - half),
-    });
+    }, () => this.updateAnswers());
   }
 
   answerBtnClick = () => {
@@ -79,6 +88,7 @@ class Game extends Component {
       correct: 'correct-answer',
       incorrect: 'wrong-answer',
       btnNext: true,
+      runTimer: false,
     });
   }
 
@@ -91,7 +101,9 @@ class Game extends Component {
         indexQuestion: indexQuestion + 1,
         correct: 'correct',
         incorrect: 'wrong',
-      });
+        runTimer: true,
+        timer: 30,
+      }, () => this.updateAnswers());
     }
     if (indexQuestion === maxIndex) {
       const { history } = this.props;
