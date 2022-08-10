@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import '../styles/Game.css';
+import { updateScore } from '../redux/actions';
 
 class Game extends Component {
   constructor() {
@@ -9,6 +11,7 @@ class Game extends Component {
     this.state = {
       questions: [],
       allAnswers: [],
+      difficulty: 0,
       correct: 'correct',
       incorrect: 'wrong',
       timer: 30,
@@ -53,15 +56,29 @@ class Game extends Component {
 
   updateAnswers = () => {
     const { questions, indexQuestion } = this.state;
+
     const half = 0.5;
     const correct = questions[indexQuestion].correct_answer;
     const incorrect = questions[indexQuestion].incorrect_answers;
+    let points = 0;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+
+    if (questions[indexQuestion].difficulty === 'easy') {
+      points = easy;
+    } else if (questions[indexQuestion].difficulty === 'medium') {
+      points = medium;
+    } else {
+      points = hard;
+    }
 
     this.setState({
       allAnswers: questions[indexQuestion].type === 'multiple'
         ? [correct, ...incorrect]
           .sort(() => Math.random() - half)
         : [correct, incorrect].sort(() => Math.random() - half),
+      difficulty: points,
     });
   }
 
@@ -83,13 +100,21 @@ class Game extends Component {
     }, () => this.updateAnswers());
   }
 
-  answerBtnClick = () => {
+  answerBtnClick = (answer) => {
+    const { questions, indexQuestion, timer, difficulty } = this.state;
+    const { getScore } = this.props;
+    const dez = 10;
+    const points = answer === questions[indexQuestion].correct_answer
+      ? dez + (timer * difficulty) : 0;
+
     this.setState({
       correct: 'correct-answer',
       incorrect: 'wrong-answer',
       btnNext: true,
       runTimer: false,
     });
+
+    getScore(points);
   }
 
   handleNext = () => {
@@ -141,7 +166,7 @@ class Game extends Component {
               className={ answer === questions[indexQuestion].correct_answer
                 ? correct : incorrect }
               key={ index }
-              onClick={ this.answerBtnClick }
+              onClick={ () => this.answerBtnClick(answer) }
               disabled={ timer < 1 }
             >
               { answer }
@@ -166,9 +191,14 @@ class Game extends Component {
 }
 
 Game.propTypes = {
+  getScore: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
-export default Game;
+const mapDispatchToProps = (dispatch) => ({
+  getScore: (score) => dispatch(updateScore(score)),
+});
+
+export default connect(null, mapDispatchToProps)(Game);

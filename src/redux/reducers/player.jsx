@@ -1,4 +1,4 @@
-import { GET_INFO_PLAYER, GET_PICTURE } from '../actions';
+import { GET_INFO_PLAYER, GET_PICTURE, UPDATE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '', // nome - da - pessoa,
@@ -7,17 +7,22 @@ const INITIAL_STATE = {
   gravatarEmail: '', // email - da - pessoa,
 };
 
-const player = (state = INITIAL_STATE, { type, name, gravatarEmail }) => {
-  switch (type) {
+const player = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
   case GET_INFO_PLAYER:
     return {
       ...state,
-      name,
+      name: action.name,
     };
   case GET_PICTURE:
     return {
       ...state,
-      gravatarEmail,
+      gravatarEmail: action.gravatarEmail,
+    };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: state.score + action.score,
     };
   default:
     return state;
