@@ -13,7 +13,7 @@ class Game extends Component {
       incorrect: 'wrong',
       timer: 30,
       btnNext: false,
-      // disableBtn: false,
+      indexQuestion: 0,
     };
   }
 
@@ -33,18 +33,11 @@ class Game extends Component {
     }
   }
 
-  // componentDidUpdate(_prevProps, prevState) {
-  //   this.clearTimer(prevState);
-  // }
-
-  // clearTimer = (prevState) => {
-  //   if (prevState.timer === 0) {
-  //     clearInterval(this.timeInterval);
-  //     this.setState({
-  //       disableBtn: true,
-  //       timer: 0,
-  //     });
-  //   }
+  // clearTimer = () => {
+  //   clearInterval(this.timeInterval);
+  //   this.setState({
+  //     timer: 30,
+  //   });
   // }
 
   // runQuestionTimer = () => {
@@ -56,6 +49,7 @@ class Game extends Component {
 
   fetchTriviaAPI = async () => {
     const { history } = this.props;
+    const { indexQuestion } = this.state;
 
     const token = localStorage.getItem('token');
     const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
@@ -68,12 +62,12 @@ class Game extends Component {
     }
 
     const half = 0.5;
-    const correct = data.results[0].correct_answer;
-    const incorrect = data.results[0].incorrect_answers;
+    const correct = data.results[indexQuestion].correct_answer;
+    const incorrect = data.results[indexQuestion].incorrect_answers;
 
     this.setState({
       questions: data.results,
-      allAnswers: data.results[0].type === 'multiple'
+      allAnswers: data.results[indexQuestion].type === 'multiple'
         ? [correct, ...incorrect]
           .sort(() => Math.random() - half)
         : [correct, incorrect].sort(() => Math.random() - half),
@@ -88,8 +82,34 @@ class Game extends Component {
     });
   }
 
+  handleNext = () => {
+    const { indexQuestion } = this.state;
+    const maxIndex = 4;
+
+    if (indexQuestion !== maxIndex) {
+      this.setState({
+        indexQuestion: indexQuestion + 1,
+        correct: 'correct',
+        incorrect: 'wrong',
+      });
+    }
+    if (indexQuestion === maxIndex) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+    // clearTimer();
+  }
+
   render() {
-    const { questions, allAnswers, correct, incorrect, timer, btnNext } = this.state;
+    const {
+      questions,
+      allAnswers,
+      correct,
+      incorrect,
+      timer,
+      btnNext,
+      indexQuestion,
+    } = this.state;
     console.log(questions);
     return (
       <>
@@ -97,19 +117,19 @@ class Game extends Component {
         <p>{ timer }</p>
         { questions.length > 0 && (
           <div>
-            <p data-testid="question-category">{ questions[0].category }</p>
-            <p data-testid="question-text">{ questions[0].question }</p>
+            <p data-testid="question-category">{ questions[indexQuestion].category }</p>
+            <p data-testid="question-text">{ questions[indexQuestion].question }</p>
           </div>)}
         <div data-testid="answer-options">
           { allAnswers.length > 0 && allAnswers.map((answer, index) => (
             <button
               type="button"
-              data-testid={ answer === questions[0].correct_answer
+              data-testid={ answer === questions[indexQuestion].correct_answer
                 ? 'correct-answer' : `wrong-answer-${index}` }
-              className={ answer === questions[0].correct_answer ? correct : incorrect }
+              className={ answer === questions[indexQuestion].correct_answer
+                ? correct : incorrect }
               key={ index }
               onClick={ this.answerBtnClick }
-              // disable={ disableBtn }
               disabled={ timer < 1 }
             >
               { answer }
@@ -120,7 +140,7 @@ class Game extends Component {
               <button
                 type="button"
                 data-testid="btn-next"
-                // onClick={}
+                onClick={ this.handleNext }
               >
                 Next
               </button>
