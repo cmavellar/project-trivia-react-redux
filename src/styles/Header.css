@@ -1,26 +1,26 @@
 header {
-  display: flex;
-  border: 1px solid red;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
   background-color: white;
+  border: 1px solid red;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
   width: 100%;
 }
 
 img {
-  width: 50px;
   border-radius: 5px;
+  width: 50px;
 }
 
 .player-info {
-  text-align: left;
   font-size: 20px;
+  text-align: left;
 }
 
 .header-logo {
   margin-left: 150px;
-  width: 150px;
   pointer-events: none;
+  width: 150px;
 }

@@ -15,8 +15,8 @@ body {
 }
 
 .App-logo {
-  width: 300px;
   pointer-events: none;
+  width: 300px;
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
