@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
@@ -24,22 +24,23 @@ describe('Testing the Login Page', () => {
   });
 
   it('Tests if after clicking the play button, it redirects to the game page', async () => {
-      const { history } = renderWithRouterAndRedux(<App />);
+    const { history } = renderWithRouterAndRedux(<App />);
 
-      const inputName = screen.getByTestId('input-player-name');
-      const inputEmail = screen.getByTestId('input-gravatar-email');
-      const buttonPlay = screen.getByRole('button', { name: /play/i });
+    const inputName = screen.getByTestId('input-player-name');
+    const inputEmail = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByRole('button', { name: /play/i });
 
-      userEvent.type(inputName, "João");
-      userEvent.type(inputEmail, "joão@uol.com.br");
-      expect(buttonPlay).not.toBeDisabled(); 
+    userEvent.type(inputName, "João");
+    userEvent.type(inputEmail, "joão@uol.com.br");
+    expect(buttonPlay).not.toBeDisabled(); 
 
-      userEvent.click(buttonPlay);
-
-      const namePlayer = await screen.getByTestId("header-player-name");
+    userEvent.click(buttonPlay);
+    await waitFor(() => {
+      const namePlayer = screen.getByTestId("header-player-name");
       const { pathname } = history.location;
       expect(namePlayer).toHaveTextContent('João');
-      expect(pathname).toBe('/game');         
+      expect(pathname).toBe('/game');
+    });         
   })
   
   it('Checks if the play button is activated when typing in the name and email fields', () => {
@@ -68,29 +69,5 @@ describe('Testing the Login Page', () => {
 
     const settings = screen.getByTestId('settings-title');
     expect(settings).toBeInTheDocument();
-  })
-
-  it('Test the request from the API', ()=> {
-    renderWithRouterAndRedux(<App />)
-
-    const dataTriviaApi = {
-      "response_code":0,
-      "response_message":"Token Generated Successfully!",
-      "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
-    }
-
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(dataTriviaApi),
-    });
-
-    const inputName = screen.getByTestId('input-player-name');
-    const inputEmail = screen.getByTestId('input-gravatar-email');
-    const buttonPlay = screen.getByRole('button', { name: /play/i });
-
-    userEvent.type(inputName, 'Teste');
-    userEvent.type(inputEmail, 'teste@teste.com')
-    userEvent.click(buttonPlay);
-    expect(global.fetch).toHaveBeenCalled()
   })
 });
