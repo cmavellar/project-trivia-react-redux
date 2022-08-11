@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends Component {
-//   constructor(props) {
-//     super(props);
-//   }
-
 routeLogin = () => {
   const { history } = this.props;
   history.push('/');
@@ -18,10 +15,16 @@ routeRanking = () => {
 }
 
 render() {
+  const { assertions } = this.props;
+  const positiveFeedback = 'Well Done!';
+  const negativeFeedback = 'Could be better...';
+  const threshold = 3;
   return (
     <>
       <Header />
-      <p data-testid="feedback-text">Feedback</p>
+      <p data-testid="feedback-text">
+        { assertions >= threshold ? positiveFeedback : negativeFeedback }
+      </p>
       <button
         data-testid="btn-play-again"
         type="button"
@@ -42,9 +45,14 @@ render() {
 }
 
 Feedback.propTypes = {
+  assertions: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+  }),
+}.isRequired;
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  assertions: state.player.assertions,
+});
+
+export default connect(mapStateToProps)(Feedback);

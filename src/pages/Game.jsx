@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import '../styles/Game.css';
-import { updateScore } from '../redux/actions';
+import { updateAssertions, updateScore } from '../redux/actions';
 import hourglass from '../icons8-hourglass.gif';
 
 class Game extends Component {
@@ -89,10 +89,14 @@ class Game extends Component {
 
   answerBtnClick = (answer) => {
     const { questions, indexQuestion, timer, difficulty } = this.state;
-    const { getScore } = this.props;
+    const { getScore, getAssertion } = this.props;
     const dez = 10;
-    const points = answer === questions[indexQuestion].correct_answer
-      ? dez + (timer * difficulty) : 0;
+    let points = 0;
+
+    if (answer === questions[indexQuestion].correct_answer) {
+      points = dez + (timer * difficulty);
+      getAssertion();
+    }
 
     this.setState({
       correct: 'correct-answer',
@@ -189,6 +193,7 @@ Game.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   getScore: (score) => dispatch(updateScore(score)),
+  getAssertion: () => dispatch(updateAssertions()),
 });
 
 export default connect(null, mapDispatchToProps)(Game);
