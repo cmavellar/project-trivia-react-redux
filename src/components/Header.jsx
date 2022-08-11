@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import logo from '../trivia.png';
+import '../styles/Header.css';
 
 class Header extends Component {
   render() {
@@ -14,16 +16,19 @@ class Header extends Component {
           src={ `https://www.gravatar.com/avatar/${picturePlayer}` }
           alt={ name }
         />
-        <span data-testid="header-player-name">
-          Nome:
-          { name }
-        </span>
-        <br />
-        <p>
-          Pontuação:
-          { ' ' }
-          <span data-testid="header-score">{ score }</span>
-        </p>
+        <div className="player-info">
+          <p data-testid="header-player-name">
+            Nome:
+            { ' ' }
+            { name }
+          </p>
+          <p>
+            Pontuação:
+            { ' ' }
+            <span data-testid="header-score">{ score }</span>
+          </p>
+        </div>
+        <img src={ logo } className="header-logo" alt="logo" />
       </header>
 
     );

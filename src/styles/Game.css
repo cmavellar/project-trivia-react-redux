@@ -5,3 +5,36 @@
 .wrong-answer {
   border: 3px solid red;
 }
+
+.game-page {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 50px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  border: 1px solid red;
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 10px;
+  gap: 30px;
+}
+
+.timer, img {
+  border: 1px solid black;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
