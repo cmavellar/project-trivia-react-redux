@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import '../styles/Game.css';
 import { updateScore } from '../redux/actions';
+import hourglass from '../icons8-hourglass.gif';
 
 class Game extends Component {
   constructor() {
@@ -133,42 +134,47 @@ class Game extends Component {
       indexQuestion,
     } = this.state;
     return (
-      <>
+      <div className="game-page">
         <Header />
-        <p>{ timer }</p>
-        { questions.length > 0 && (
-          <div>
-            <p data-testid="question-category">{ questions[indexQuestion].category }</p>
-            <p data-testid="question-text">{ questions[indexQuestion].question }</p>
-          </div>)}
-        <div data-testid="answer-options">
-          { allAnswers.length > 0 && allAnswers.map((answer, index) => (
-            <button
-              type="button"
-              data-testid={ answer === questions[indexQuestion].correct_answer
-                ? 'correct-answer' : `wrong-answer-${index}` }
-              className={ answer === questions[indexQuestion].correct_answer
-                ? correct : incorrect }
-              key={ index }
-              onClick={ () => this.answerBtnClick(answer) }
-              disabled={ timer < 1 }
-            >
-              { answer }
-            </button>
-          )) }
-          <div>
-            { btnNext && (
+        <div className="game-container">
+          <div className="timer">
+            <img src={ hourglass } alt="hourglass" className="hourglass" />
+            <p>{ timer }</p>
+          </div>
+          { questions.length > 0 && (
+            <div>
+              <p data-testid="question-category">{ questions[indexQuestion].category }</p>
+              <p data-testid="question-text">{ questions[indexQuestion].question }</p>
+            </div>)}
+          <div data-testid="answer-options">
+            { allAnswers.length > 0 && allAnswers.map((answer, index) => (
               <button
                 type="button"
-                data-testid="btn-next"
-                onClick={ this.handleNext }
+                data-testid={ answer === questions[indexQuestion].correct_answer
+                  ? 'correct-answer' : `wrong-answer-${index}` }
+                className={ answer === questions[indexQuestion].correct_answer
+                  ? correct : incorrect }
+                key={ index }
+                onClick={ () => this.answerBtnClick(answer) }
+                disabled={ timer < 1 }
               >
-                Next
+                { answer }
               </button>
-            )}
+            )) }
+            <div>
+              { (timer === 0 || btnNext) && (
+                <button
+                  type="button"
+                  data-testid="btn-next"
+                  onClick={ this.handleNext }
+                >
+                  Next
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </>
+      </div>
 
     );
   }

@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { AiFillSetting } from 'react-icons/ai';
 import { getInfoPlayer, getPicture } from '../redux/actions';
-// import md5 from 'crypto-js/md5';
+import logo from '../trivia.png';
+import '../styles/Login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -24,14 +26,9 @@ class Login extends React.Component {
     const { dispatchGetInfoPlayer, dispatchGetPicture } = this.props;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
-    console.log('teste');
-    // const rankingObj = [{
-    //   name: player,
-    //   score: 0,
-    //   picture: md5(email).toString(),
-    // }];
+
     localStorage.setItem('token', json.token);
-    // localStorage.setItem('ranking', JSON.stringify(rankingObj));
+
     const { history } = this.props;
     history.push('/game');
     dispatchGetInfoPlayer(player);
@@ -46,39 +43,44 @@ class Login extends React.Component {
   render() {
     const { player, email } = this.state;
     return (
-      <form>
-        <input
-          type="text"
-          data-testid="input-player-name"
-          placeholder="Nome"
-          onChange={ this.handleInputChange }
-          name="player"
-          value={ player }
-        />
-        <input
-          type="email"
-          data-testid="input-gravatar-email"
-          placeholder="E-mail"
-          onChange={ this.handleInputChange }
-          name="email"
-          value={ email }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ this.routeGame }
-          disabled={ !(player && email) }
-        >
-          Play
-        </button>
-        <button
-          data-testid="btn-settings"
-          type="button"
-          onClick={ this.routeSettings }
-        >
-          Settings
-        </button>
-      </form>
+      <div className="login-page">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form className="login-form">
+          <input
+            type="text"
+            data-testid="input-player-name"
+            placeholder="Nome"
+            onChange={ this.handleInputChange }
+            name="player"
+            value={ player }
+          />
+          <input
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="E-mail"
+            onChange={ this.handleInputChange }
+            name="email"
+            value={ email }
+          />
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.routeGame }
+            disabled={ !(player && email) }
+            className="play-btn"
+          >
+            Play
+          </button>
+          <button
+            data-testid="btn-settings"
+            type="button"
+            onClick={ this.routeSettings }
+            className="settings-btn"
+          >
+            <AiFillSetting />
+          </button>
+        </form>
+      </div>
     );
   }
 }

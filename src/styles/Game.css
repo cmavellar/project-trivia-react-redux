@@ -5,3 +5,32 @@
 .wrong-answer {
   border: 3px solid red;
 }
+
+.game-page {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  width: 100%;
+}
+
+.game-container {
+  background-color: white;
+  border: 1px solid red;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.timer {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
