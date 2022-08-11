@@ -1,4 +1,5 @@
-import { GET_INFO_PLAYER, GET_PICTURE, UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions/actionTypes';
+import { GET_INFO_PLAYER, GET_PICTURE,
+  UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '', // nome - da - pessoa,
