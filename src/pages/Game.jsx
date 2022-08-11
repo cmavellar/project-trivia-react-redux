@@ -30,7 +30,6 @@ class Game extends Component {
     if (runTimer) {
       this.handleTime();
     }
-    this.handleTime();
   }
 
   handleTime = () => {
