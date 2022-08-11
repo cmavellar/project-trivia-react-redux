@@ -69,7 +69,7 @@ class Login extends React.Component {
             disabled={ !(player && email) }
             className="play-btn"
           >
-            Start
+            Play
           </button>
           <button
             data-testid="btn-settings"

@@ -17,10 +17,10 @@ class Header extends Component {
           alt={ name }
         />
         <div className="player-info">
-          <p data-testid="header-player-name">
+          <p>
             Nome:
             { ' ' }
-            { name }
+            <span data-testid="header-player-name">{ name }</span>
           </p>
           <p>
             Pontuação:
