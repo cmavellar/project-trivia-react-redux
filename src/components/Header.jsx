@@ -19,10 +19,11 @@ class Header extends Component {
           { name }
         </span>
         <br />
-        <span data-testid="header-score">
+        <p>
           Pontuação:
-          { score }
-        </span>
+          { ' ' }
+          <span data-testid="header-score">{ score }</span>
+        </p>
       </header>
 
     );
