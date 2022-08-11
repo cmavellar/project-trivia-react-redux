@@ -15,7 +15,7 @@ routeRanking = () => {
 }
 
 render() {
-  const { assertions } = this.props;
+  const { assertions, score } = this.props;
   const positiveFeedback = 'Well Done!';
   const negativeFeedback = 'Could be better...';
   const threshold = 3;
@@ -24,6 +24,16 @@ render() {
       <Header />
       <p data-testid="feedback-text">
         { assertions >= threshold ? positiveFeedback : negativeFeedback }
+      </p>
+      <p>
+        Placar final:
+        { ' ' }
+        <span data-testid="feedback-total-score">{ score }</span>
+      </p>
+      <p>
+        Total de acertos:
+        { ' ' }
+        <span data-testid="feedback-total-question">{ assertions }</span>
       </p>
       <button
         data-testid="btn-play-again"
@@ -46,6 +56,7 @@ render() {
 
 Feedback.propTypes = {
   assertions: PropTypes.number,
+  score: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }),
@@ -53,6 +64,7 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);
