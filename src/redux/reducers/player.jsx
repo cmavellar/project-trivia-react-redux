@@ -1,4 +1,4 @@
-import { GET_INFO_PLAYER, GET_PICTURE, UPDATE_SCORE } from '../actions/actionTypes';
+import { GET_INFO_PLAYER, GET_PICTURE, UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '', // nome - da - pessoa,
@@ -23,6 +23,11 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: state.score + action.score,
+    };
+  case UPDATE_ASSERTIONS:
+    return {
+      ...state,
+      assertions: state.assertions + 1,
     };
   default:
     return state;
