@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { newScore } from '../redux/actions';
+import '../styles/Ranking.css';
 
 class Ranking extends Component {
   constructor() {
@@ -22,28 +23,28 @@ class Ranking extends Component {
     const orderedRanking = ranking.map((player) => Object.values(player))
       .sort((a, b) => b[1] - a[1]);
     return (
-      <div>
+      <div className="ranking-page">
         <h1
           data-testid="ranking-title"
         >
           Ranking
         </h1>
-        <ol>
-          { orderedRanking && orderedRanking.map((player, index) => (
-            <li key={ `player-name-${index}` }>
-              <p>
-                Jogador:
-                { ' ' }
-                <span data-testid={ `player-name-${index}` }>{ player[0] }</span>
-              </p>
-              <p>
-                Pontuação
-                { ' ' }
-                <span data-testid={ `player-score-${index}` }>{ player[1] }</span>
-              </p>
-            </li>
-          )) }
-        </ol>
+        <table>
+          <thead>
+            <th>Position</th>
+            <th>Player</th>
+            <th>Score</th>
+          </thead>
+          <tbody>
+            { orderedRanking && orderedRanking.map((player, index) => (
+              <tr key={ `player-name-${index}` }>
+                <td>{ index + 1 }</td>
+                <td data-testid={ `player-name-${index}` }>{ player[0] }</td>
+                <td data-testid={ `player-score-${index}` }>{ player[1] }</td>
+              </tr>
+            )) }
+          </tbody>
+        </table>
         <button
           data-testid="btn-go-home"
           type="button"
