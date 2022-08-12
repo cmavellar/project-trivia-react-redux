@@ -1,4 +1,5 @@
 import { GET_INFO_PLAYER, GET_PICTURE,
+  NEW_SCORE,
   UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
@@ -29,6 +30,11 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       assertions: state.assertions + 1,
+    };
+  case NEW_SCORE:
+    return {
+      ...state,
+      score: 0,
     };
   default:
     return state;
