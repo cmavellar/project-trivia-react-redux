@@ -20,7 +20,6 @@ class Feedback extends Component {
     if (!localStorage.getItem('ranking')) {
       localStorage.setItem('ranking', '[]');
     }
-    console.log(playerInfo);
 
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     const newRanking = [...ranking, playerInfo];
