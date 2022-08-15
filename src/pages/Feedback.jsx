@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { newScore } from '../redux/actions';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -46,33 +47,37 @@ class Feedback extends Component {
     return (
       <>
         <Header />
-        <p data-testid="feedback-text">
+        <p data-testid="feedback-text" className="text">
           { assertions >= threshold ? positiveFeedback : negativeFeedback }
         </p>
-        <p>
+        <p className="text">
           Placar final:
           { ' ' }
           <span data-testid="feedback-total-score">{ score }</span>
         </p>
-        <p>
+        <p className="text">
           Total de acertos:
           { ' ' }
           <span data-testid="feedback-total-question">{ assertions }</span>
         </p>
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          onClick={ this.routeLogin }
-        >
-          Play Again
-        </button>
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ this.routeRanking }
-        >
-          Ranking
-        </button>
+        <div className="divBtn">
+          <button
+            data-testid="btn-play-again"
+            type="button"
+            onClick={ this.routeLogin }
+            className="btnFeedback"
+          >
+            Play Again
+          </button>
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ this.routeRanking }
+            className="btnFeedback"
+          >
+            Ranking
+          </button>
+        </div>
       </>
     );
   }
