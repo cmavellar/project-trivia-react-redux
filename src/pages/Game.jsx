@@ -150,7 +150,10 @@ class Game extends Component {
               <p data-testid="question-category">{ questions[indexQuestion].category }</p>
               <p data-testid="question-text">{ questions[indexQuestion].question }</p>
             </div>)}
-          <div data-testid="answer-options">
+          <div
+            data-testid="answer-options"
+            className="divQuestion"
+          >
             { allAnswers.length > 0 && allAnswers.map((answer, index) => (
               <button
                 type="button"
@@ -168,6 +171,7 @@ class Game extends Component {
             <div>
               { (timer === 0 || btnNext) && (
                 <button
+                  className="btnNext"
                   type="button"
                   data-testid="btn-next"
                   onClick={ this.handleNext }

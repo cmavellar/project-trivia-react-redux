@@ -18,7 +18,7 @@
 
 .game-container {
   background-color: white;
-  border: 1px solid red;
+  border: 1px solid rgba(255, 0, 0, 0);
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
@@ -33,4 +33,49 @@
   display: flex;
   gap: 20px;
   justify-content: center;
+}
+
+.divQuestion {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+  width: 400px;
+}
+
+button {
+  background: rgb(133, 132, 132);
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  height: 35px;
+  letter-spacing: 0.05em;
+  margin: auto;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100px;
+}
+
+.btnNext {
+  background: rgb(156, 154, 154);
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  height: 35px;
+  letter-spacing: 0.05em;
+  margin: 2% auto;
+  text-align: center;
+  text-transform: uppercase;
+  width: 70px;
+}
+
+.btnNext:hover {
+  animation: 0.4s ease-in-out infinite alternate;
+  box-shadow: 0 2px 20px black;
+  transform: translateY(3px);
+  transition: all 0.3s ease-in-out;
 }
