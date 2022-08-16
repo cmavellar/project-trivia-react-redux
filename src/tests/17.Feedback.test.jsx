@@ -76,16 +76,16 @@ describe('Testing the Feedback Page', () => {
         renderWithRouterAndRedux(<App />, fakeState, '/feedback');
         const totalQuestions = screen.getByTestId('feedback-total-question');
         expect(totalQuestions).toHaveTextContent(fakeState.player.assertions);
-        
+
         const feedbackText = screen.getByTestId('feedback-text');
         expect(feedbackText).toHaveTextContent('Could be better...');
         expect(feedbackText).not.toHaveTextContent('Well Done!');
-    })    
+    })
     it(`checks if the correct message appears according to the high score`, () => {
         renderWithRouterAndRedux(<App />, otherFakeState, '/feedback');
         const totalQuestions = screen.getByTestId('feedback-total-question');
         expect(totalQuestions).toHaveTextContent(otherFakeState.player.assertions);
-        
+
         const feedbackText = screen.getByTestId('feedback-text');
         expect(feedbackText).toHaveTextContent('Well Done!');
         expect(feedbackText).not.toHaveTextContent('Could be better...');
